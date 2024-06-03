@@ -1,15 +1,18 @@
 import MobileNav from "@/components/MobileNav";
+import { getLoggedInUser } from "@/lib/actions/user.actions";
 import { Sidebar } from "lucide-react";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Inter, IBM_Plex_Serif } from "next/font/google";
 import Image from "next/image";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const loggedIn = { firstName: "Chris", lastName: "Farah" };
+  const loggedIn = await getLoggedInUser();
+  if (!loggedIn) redirect("/sign-in");
   return (
     <main className="flex h-screen w-full font-inter">
       <Sidebar user={loggedIn} />
