@@ -4,6 +4,9 @@ import { ID } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
 import { parseStringify } from "../utils";
+import { Languages } from "lucide-react";
+import { CountryCode, Products } from "plaid";
+import { plaidClient } from "@/lib/plaid";
 
 const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
@@ -71,5 +74,24 @@ export const logoutAccount = async () => {
     await account.deleteSession("current");
   } catch (error) {
     return null;
+  }
+};
+
+export const createLinkToken = async (user: User) => {
+  try {
+    const tokenParams = {
+      user: {
+        client_user_id: user.$id,
+      },
+      client_name: user.name,
+      products: ["auth"] as Products[],
+      Language: "en",
+      country_codes: ["US"] as CountryCode[],
+    };
+    const response = await plaidClient.linkTokenCreate(tokenParams);
+
+    return parseStringify({ linkToken: response.data.link_token });
+  } catch (error) {
+    console.log(error);
   }
 };
