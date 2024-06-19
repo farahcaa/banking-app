@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import {
   Sheet,
   SheetClose,
@@ -9,17 +9,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { sidebarLinks } from "@/constants";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { sidebarLinks } from "@/constants";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 import Footer from "./Footer";
 
 const MobileNav = ({ user }: MobileNavProps) => {
   const pathname = usePathname();
+
   return (
-    <section className="w-full max-w-[264px]">
+    <section className="w-fulll max-w-[264px]">
       <Sheet>
         <SheetTrigger>
           <Image
@@ -31,7 +32,10 @@ const MobileNav = ({ user }: MobileNavProps) => {
           />
         </SheetTrigger>
         <SheetContent side="left" className="border-none bg-white">
-          <Link href="/" className=" cursor-pointer flex items-center gap-2">
+          <Link
+            href="/"
+            className="cursor-pointer flex items-center gap-1 px-4"
+          >
             <Image
               src="/icons/logo.svg"
               width={34}
@@ -44,11 +48,12 @@ const MobileNav = ({ user }: MobileNavProps) => {
           </Link>
           <div className="mobilenav-sheet">
             <SheetClose asChild>
-              <nav className="flex h-full flec-col gap-6 pt-16 text-white">
+              <nav className="flex h-full flex-col gap-6 pt-16 text-white">
                 {sidebarLinks.map((item) => {
                   const isActive =
-                    pathname == item.route ||
+                    pathname === item.route ||
                     pathname.startsWith(`${item.route}/`);
+
                   return (
                     <SheetClose asChild key={item.route}>
                       <Link
@@ -69,7 +74,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
                         />
                         <p
                           className={cn("text-16 font-semibold text-black-2", {
-                            textwhite: isActive,
+                            "text-white": isActive,
                           })}
                         >
                           {item.label}
@@ -81,6 +86,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
                 USER
               </nav>
             </SheetClose>
+
             <Footer user={user} type="mobile" />
           </div>
         </SheetContent>

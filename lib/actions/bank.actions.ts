@@ -45,7 +45,7 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
           type: accountData.type as string,
           subtype: accountData.subtype! as string,
           appwriteItemId: bank.$id,
-          sharaebleId: bank.sharaebleId,
+          sharaebleId: bank.shareableId,
         };
 
         return account;
@@ -73,6 +73,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     const accountsResponse = await plaidClient.accountsGet({
       access_token: bank.accessToken,
     });
+
     const accountData = accountsResponse.data.accounts[0];
 
     // get transfer transactions from appwrite
